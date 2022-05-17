@@ -1,0 +1,52 @@
+//k (||x-xc||)=exp {- ||x-xc||^2/ (2*σ)^2) } 
+#include<iostream>
+#include<string.h>
+#include<math.h>
+#include<algorithm>
+#define N 105
+using namespace std;
+double sigma;//定义参数sigma 
+int n;
+struct matrix{
+    int r,c;
+    int m[N][N];
+    matrix(int _r,int _c):r(_r),c(_c){memset(m,0,sizeof(m));}
+    matrix operator*(matrix &b)const{//运算符重载 
+        matrix res(r,c);
+        for(int i=1;i<=r;++i)
+            for(int j=1;j<=c;++j)
+                res.m[i][j]=m[i][j]*b.m[i][j];
+        return res;
+    }
+    matrix operator-(matrix &b)const{
+        matrix res(r,c);
+        for(int i=1;i<=r;++i)
+            for(int j=1;j<=c;++j)
+                res.m[i][j]=m[i][j]-b.m[i][j];
+        return res;
+    }
+    int sum(){
+        int res=0;
+        for(int i=1;i<=r;++i)
+            for(int j=1;j<=c;++j)
+                res+=m[i][j];
+        return res;
+    }
+};
+double K(matrix a,matrix b)
+{
+    matrix c(a.r,a.c);
+    c=a-b;
+    return exp(-1.0/ (2*sigma*sigma) *(c*c).sum() ) ;
+}
+int main()
+{
+    cin>>n>>sigma;
+    matrix x1(n,1),x2(n,1);
+    for(int i=1;i<=n;++i)
+        cin>>x1.m[i][1];
+    for(int i=1;i<=n;++i)
+        cin>>x2.m[i][1];
+    cout<<K(x1,x2)<<endl;
+    return 0;
+}

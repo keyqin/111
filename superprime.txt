@@ -1,0 +1,18 @@
+#include<iostream>
+#define N 999
+using namespace std;
+bool vis[N+5];
+int main()
+{
+	for(int i=2;i<=N;++i)
+		if(!vis[i])
+			for(int j=i*i;j<=N;j+=i)
+				vis[j]=1;
+	for(int i=100;i<=N;++i)
+	{
+		int a=i/100,b=i/10%10,c=i%10;
+		if(!vis[a+b+c]&&!vis[i]&&!vis[a*a+b*b+c*c])
+			cout<<i<<endl;
+	}
+	return 0;
+ } 
